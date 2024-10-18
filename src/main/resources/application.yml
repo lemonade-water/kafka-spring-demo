@@ -1,0 +1,11 @@
+server:
+  port: 8081
+
+spring:
+  kafka:
+    producer:
+      bootstrap-servers: 192.168.204.134:9092
+    consumer:
+      bootstrap-servers: 192.168.204.134:9092
+      group-id: 0
+
