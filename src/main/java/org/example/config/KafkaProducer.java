@@ -16,8 +16,11 @@ public class KafkaProducer {
     private KafkaTemplate<String, String> kafkaTemplate;
 
     public void sendMessage(String message) {
-        CompletableFuture<SendResult<String, String>> future = kafkaTemplate.send("test-topic", message);
-        future.thenAccept(result -> log.info("发送消息成功：" + result));
-        future.exceptionally(throwable -> { log.error("发送消息失败：" + throwable.getMessage()); return null; });
+        CompletableFuture<SendResult<String, String>> future = kafkaTemplate.send("test-topic-1", message);
+        future.thenAccept(result -> log.info("发送消息成功：" + result))
+                .exceptionally(throwable -> {
+                    throwable.printStackTrace();
+                    log.error("发送消息失败：" + throwable.getMessage()); return null;
+                });
     }
 }

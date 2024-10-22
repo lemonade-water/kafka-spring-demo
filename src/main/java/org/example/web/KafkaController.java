@@ -4,6 +4,7 @@ import jakarta.annotation.Resource;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.example.config.KafkaProducer;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -18,7 +19,7 @@ public class KafkaController {
      * @return
      */
     @GetMapping("/sendMessage")
-    public String sendMessage(String message) {
+    public String sendMessage(@RequestParam("message") String message) {
         kafkaProducer.sendMessage(message);
         return "success";
     }

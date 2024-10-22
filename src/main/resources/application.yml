@@ -3,9 +3,33 @@ server:
 
 spring:
   kafka:
+    bootstrap-servers: 192.168.204.134:9092
     producer:
-      bootstrap-servers: 192.168.204.134:9092
+      bootstrap-servers: ${spring.kafka.bootstrap-servers}
     consumer:
-      bootstrap-servers: 192.168.204.134:9092
-      group-id: 0
+      bootstrap-servers: ${spring.kafka.bootstrap-servers}
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      group-id: my-consumer-group
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+    listener:
+      # 拉取数据方式: single(单个)、batch(批量)
+      type: batch
+      # 请求数据小于max-poll-records，poll方法会持续请求，直到超时
+      poll-timeout: 500
+      # 指定listener容器中的线程数，用于提高并发量(可在代码中配置)
+      # concurrency: 6
+      # 偏移量提交方式：手动
+      ack-mode: manual_immediate
+    properties:
+      # 拉取数据间隔（须大于消息处理耗时）
+      max:
+        poll:
+          interval:
+            ms: 600000
+      # group coordinator判定消费实例僵死并踢除的时间阈值
+      session:
+        timeout:
+          ms: 120000  #默认10000
 
