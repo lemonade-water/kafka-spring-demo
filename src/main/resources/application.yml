@@ -6,6 +6,7 @@ spring:
     bootstrap-servers: 192.168.204.134:9092
     producer:
       bootstrap-servers: ${spring.kafka.bootstrap-servers}
+      retries: 3
     consumer:
       bootstrap-servers: ${spring.kafka.bootstrap-servers}
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -23,6 +24,10 @@ spring:
       # 偏移量提交方式：手动
       ack-mode: manual_immediate
     properties:
+      #配置发送请求超时
+      request:
+        timeout:
+          ms: 3000
       # 拉取数据间隔（须大于消息处理耗时）
       max:
         poll:
